@@ -1,9 +1,0 @@
-name = "shader-reminder"
-compatibility_date = "2025-10-01"
-
-# Pages configuration for static assets
-pages_build_output_dir = "build"
-
-# Alternatively, you can use the assets configuration:
-# [assets]
-# directory = "./build"

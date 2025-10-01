@@ -63,13 +63,24 @@ export const CenterDisplay = ({
 }: CenterDisplayProps) => {
   const [displaySize, setDisplaySize] = useState(size * 0.7);
   const [showDetails, setShowDetails] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const section = sections[currentSection] || sections[0];
 
   // Resize display for responsive design
   useEffect(() => {
-    setDisplaySize(size * 0.7);
+    // On very small screens, use full viewport size
+    const viewportSize = Math.min(window.innerWidth, window.innerHeight);
+    if (viewportSize < 500) {
+      setDisplaySize(viewportSize * 0.95);
+      setIsSmallScreen(true);
+    } else {
+      // Use larger display size on mobile for better text padding
+      const isMobile = window.innerWidth < 640;
+      setDisplaySize(size * (isMobile ? 0.85 : 0.7));
+      setIsSmallScreen(false);
+    }
   }, [size]);
 
   // Reset details when section changes
@@ -103,16 +114,16 @@ export const CenterDisplay = ({
           animate={{ opacity: 1, scale: 1, filter: "blur(0px) brightness(1)" }}
           exit={{ opacity: 0, scale: 1.1, filter: "blur(4px) brightness(2)" }}
           transition={{ duration: 0.4 }}
-          className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-8 border border-white/10"
+          className={`w-full h-full flex flex-col items-center justify-center ${isSmallScreen ? 'rounded-3xl' : 'rounded-full'} bg-black/30 backdrop-blur-lg p-4 sm:p-8 border border-white/10`}
         >
           {!showDetails ? (
-            <h1 className="text-[32px] font-bold tracking-tight text-primary text-center px-4">
+            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-primary text-center px-2 sm:px-4">
               {section.title}
             </h1>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center w-full px-12 space-y-4 overflow-y-auto">
+            <div className="flex-1 flex flex-col items-center justify-center w-full px-4 sm:px-8 md:px-12 space-y-2 sm:space-y-4 overflow-y-auto">
               {section.content.map((item, idx) => (
-                <p key={idx} className="text-center max-w-full break-words text-[16px] leading-relaxed text-white/90 px-2 py-1">
+                <p key={idx} className="text-center max-w-full break-words text-sm sm:text-[16px] leading-relaxed text-white/90 px-1 sm:px-2 py-0.5 sm:py-1">
                   {item}
                 </p>
               ))}

@@ -77,6 +77,15 @@ export const CenterDisplay = ({
     setShowDetails(false);
   }, [currentSection]);
 
+  // Auto-show details after 0.5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowDetails(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [currentSection]);
+
   return (
     <div
       className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"

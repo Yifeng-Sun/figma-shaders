@@ -15,42 +15,44 @@ interface Section {
 const sections: Section[] = [
   {
     id: 0,
-    title: "Overview",
+    title: "Yifeng Sun",
     content: [
-      "Full Stack Developer",
-      "AI/ML Enthusiast",
-      "Open Source Contributor",
-      "Based in San Francisco, CA"
+      "Software Engineer",
+      "Backend & Distributed Systems",
+      "Brooklyn, New York",
+      "ys@yifengsun.com"
     ]
   },
   {
     id: 1,
     title: "Work",
     content: [
-      "Senior Software Engineer @ Tech Company",
-      "Led team of 5 developers on cloud platform",
-      "Built scalable microservices architecture",
-      "2020 - Present"
+      "Software Engineer @ Walmart - Anomaly Detection",
+      "Real-time pricing pipeline with Kafka & Kotlin",
+      "Reduced P99 latency from 1200ms to 310ms",
+      "Software Engineer Intern @ Tesla - Material Flow",
+      "Go/Gin backend platform, reduced DB load by 29%",
+      "Software Engineer Intern @ Xiaomi - MIUI Privacy"
     ]
   },
   {
     id: 2,
     title: "Education",
     content: [
-      "M.S. Computer Science @ University Name",
-      "Specialized in Machine Learning",
-      "Published 3 research papers",
-      "GPA: 3.9/4.0"
+      "M.S. Computer Engineering @ NYU",
+      "2022 - 2024",
+      "B.E. Software Engineering @ Northeastern",
+      "2018 - 2022"
     ]
   },
   {
     id: 3,
-    title: "Shoutouts",
+    title: "Skills",
     content: [
-      "Thanks to my mentors and colleagues",
-      "Grateful for the open source community",
-      "Special thanks to all supporters",
-      "Let's build something amazing together!"
+      "Java, Kotlin, Go, Python",
+      "Kafka, Kubernetes, Docker, Jenkins",
+      "PostgreSQL, Cassandra, MongoDB, Redis",
+      "AWS, GCP, Spring Boot"
     ]
   }
 ];
@@ -90,7 +92,7 @@ export const CenterDisplay = ({
 
   return (
     <div
-      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto z-10"
+      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10"
       style={{
         width: displaySize,
         height: displaySize
@@ -104,7 +106,7 @@ export const CenterDisplay = ({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-6 border border-white/10"
+          className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-6 border border-white/10 pointer-events-none"
         >
           {/* Main Content - Centered */}
           <div className="flex flex-col items-center justify-center h-full w-full relative space-y-6">
@@ -125,7 +127,7 @@ export const CenterDisplay = ({
 
           {/* Content Carousel Indicators - Bottom */}
           {section.content.length > 1 && (
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center justify-center space-x-2">
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center justify-center space-x-2 pointer-events-auto">
               {section.content.map((_, idx) => (
                 <motion.button
                   key={idx}

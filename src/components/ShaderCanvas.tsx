@@ -15,6 +15,7 @@ export const ShaderCanvas = ({
   const mousePositionRef = useRef<[number, number]>([0.5, 0.5]); // Store mouse position in ref instead of state
   const programInfoRef = useRef<any>(null);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Get the selected shader
   const selectedShader = shaders.find(s => s.id === shaderId) || shaders[0];
@@ -103,7 +104,13 @@ export const ShaderCanvas = ({
 
     render();
 
+    // Mark as initialized after 1 second delay
+    const timer = setTimeout(() => {
+      setIsInitialized(true);
+    }, 1000);
+
     return () => {
+      clearTimeout(timer);
       cancelAnimationFrame(animationRef.current);
       // Clean up WebGL resources
       if (gl && shaderProgram) {
@@ -269,7 +276,9 @@ export const ShaderCanvas = ({
         left: 0,
         width: '100vw',
         height: '100vh',
-        cursor: 'default'
+        cursor: 'default',
+        opacity: isInitialized ? 1 : 0,
+        transition: 'opacity 0.3s ease-in'
       }}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}

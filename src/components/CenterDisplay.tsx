@@ -62,6 +62,7 @@ export const CenterDisplay = ({
   currentSection
 }: CenterDisplayProps) => {
   const [displaySize, setDisplaySize] = useState(size * 0.7);
+  const [showDetails, setShowDetails] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const section = sections[currentSection] || sections[0];
@@ -71,14 +72,20 @@ export const CenterDisplay = ({
     setDisplaySize(size * 0.7);
   }, [size]);
 
+  // Reset details when section changes
+  useEffect(() => {
+    setShowDetails(false);
+  }, [currentSection]);
+
   return (
     <div
-      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10"
+      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
       style={{
         width: displaySize,
         height: displaySize
       }}
       ref={containerRef}
+      onClick={() => setShowDetails(!showDetails)}
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -87,21 +94,41 @@ export const CenterDisplay = ({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-8 border border-white/10 pointer-events-none"
+          className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-8 border border-white/10"
         >
-          {/* Section Title */}
-          <h1 className="text-[32px] font-bold tracking-tight text-primary mb-6">
-            {section.title}
-          </h1>
+          {/* Section Title - Only show when details are hidden */}
+          <AnimatePresence mode="wait">
+            {!showDetails && (
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-[32px] font-bold tracking-tight text-primary text-center px-4"
+              >
+                {section.title}
+              </motion.h1>
+            )}
+          </AnimatePresence>
 
-          {/* All Content Items - Display all at once */}
-          <div className="flex-1 flex flex-col items-center justify-center w-full px-8 space-y-3 overflow-y-auto">
-            {section.content.map((item, idx) => (
-              <p key={idx} className="text-center max-w-full break-words text-[16px] leading-relaxed text-white/90">
-                {item}
-              </p>
-            ))}
-          </div>
+          {/* All Content Items - Display only when clicked */}
+          <AnimatePresence mode="wait">
+            {showDetails && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex-1 flex flex-col items-center justify-center w-full px-12 space-y-4 overflow-y-auto"
+              >
+                {section.content.map((item, idx) => (
+                  <p key={idx} className="text-center max-w-full break-words text-[16px] leading-relaxed text-white/90 px-2 py-1">
+                    {item}
+                  </p>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </AnimatePresence>
     </div>

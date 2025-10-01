@@ -47,12 +47,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
 void main() {
   vec2 fragCoord = vTextureCoord * iResolution;
-  
+
   // Calculate distance from center for circular mask
   vec2 center = iResolution * 0.5;
   float dist = distance(fragCoord, center);
-  float radius = min(iResolution.x, iResolution.y) * 0.5;
-  
+  float radius = min(iResolution.x, iResolution.y) * 2.0; // 4x larger (was 0.5, now 2.0)
+
   // Only render inside circle
   if (dist < radius) {
     vec4 color;
@@ -154,12 +154,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
 void main() {
     vec2 fragCoord = vTextureCoord * iResolution;
-    
+
     // Calculate distance from center for circular mask
     vec2 center = iResolution * 0.5;
     float dist = distance(fragCoord, center);
-    float radius = min(iResolution.x, iResolution.y) * 0.5;
-    
+    float radius = min(iResolution.x, iResolution.y) * 2.0; // 4x larger (was 0.5, now 2.0)
+
     // Only render inside circle
     if (dist < radius) {
         vec4 color;
@@ -243,12 +243,12 @@ void mainImage(out vec4 O, in vec2 fragCoord) {
 
 void main() {
   vec2 fragCoord = vTextureCoord * iResolution;
-  
+
   // Calculate distance from center for circular mask
   vec2 center = iResolution * 0.5;
   float dist = distance(fragCoord, center);
-  float radius = min(iResolution.x, iResolution.y) * 0.5;
-  
+  float radius = min(iResolution.x, iResolution.y) * 2.0; // 4x larger (was 0.5, now 2.0)
+
   // Only render inside circle
   if (dist < radius) {
     vec4 color;
@@ -390,12 +390,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
 void main() {
     vec2 fragCoord = vTextureCoord * iResolution;
-    
+
     // Calculate distance from center for circular mask
     vec2 center = iResolution * 0.5;
     float dist = distance(fragCoord, center);
-    float radius = min(iResolution.x, iResolution.y) * 0.5;
-    
+    float radius = min(iResolution.x, iResolution.y) * 2.0; // 4x larger (was 0.5, now 2.0)
+
     // Only render inside circle
     if (dist < radius) {
         vec4 color;

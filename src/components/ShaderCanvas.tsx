@@ -14,7 +14,7 @@ export const ShaderCanvas = ({
   const animationRef = useRef<number>(0);
   const mousePositionRef = useRef<[number, number]>([0.5, 0.5]); // Store mouse position in ref instead of state
   const programInfoRef = useRef<any>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   // Get the selected shader
   const selectedShader = shaders.find(s => s.id === shaderId) || shaders[0];
@@ -22,12 +22,22 @@ export const ShaderCanvas = ({
   // Track mouse position relative to the canvas without causing re-renders
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!canvasRef.current) return;
-    
+
     const rect = canvasRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
     mousePositionRef.current = [x, y]; // Update ref, not state
   };
+
+  // Handle window resize to make canvas fill the screen
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,9 +77,9 @@ export const ShaderCanvas = ({
     const buffers = initBuffers(gl);
     let startTime = Date.now();
 
-    // Set canvas size
-    canvas.width = size;
-    canvas.height = size;
+    // Set canvas size to fill screen
+    canvas.width = dimensions.width;
+    canvas.height = dimensions.height;
     gl.viewport(0, 0, canvas.width, canvas.height);
 
     // Render function
@@ -100,7 +110,7 @@ export const ShaderCanvas = ({
         gl.deleteProgram(shaderProgram);
       }
     };
-  }, [size, shaderId, selectedShader.fragmentShader]);
+  }, [dimensions.width, dimensions.height, shaderId, selectedShader.fragmentShader]);
 
   // Initialize shader program
   function initShaderProgram(gl: WebGLRenderingContext, vsSource: string, fsSource: string) {
@@ -247,22 +257,20 @@ export const ShaderCanvas = ({
 
   // Handle mouse leave - reset mouse position to center when cursor leaves canvas
   const handleMouseLeave = () => {
-    setIsHovered(false);
     mousePositionRef.current = [0.5, 0.5]; // Reset to center
   };
 
   return (
     <canvas
       ref={canvasRef}
-      className="rounded-full transition-transform duration-300"
       style={{
-        width: size,
-        height: size,
-        transform: isHovered ? 'scale(1.03)' : 'scale(1)',
-        cursor: 'default',
-        boxShadow: isHovered ? '0 0 30px rgba(255, 255, 255, 0.2)' : 'none'
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        cursor: 'default'
       }}
-      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
     />

@@ -89,46 +89,26 @@ export const CenterDisplay = ({
     >
       <AnimatePresence mode="wait">
         <motion.div
-          key={section.id}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.3 }}
+          key={`${section.id}-${showDetails}`}
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(4px) brightness(2)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px) brightness(1)" }}
+          exit={{ opacity: 0, scale: 1.1, filter: "blur(4px) brightness(2)" }}
+          transition={{ duration: 0.4 }}
           className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black/30 backdrop-blur-lg p-8 border border-white/10"
         >
-          {/* Section Title - Only show when details are hidden */}
-          <AnimatePresence mode="wait">
-            {!showDetails && (
-              <motion.h1
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="text-[32px] font-bold tracking-tight text-primary text-center px-4"
-              >
-                {section.title}
-              </motion.h1>
-            )}
-          </AnimatePresence>
-
-          {/* All Content Items - Display only when clicked */}
-          <AnimatePresence mode="wait">
-            {showDetails && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex-1 flex flex-col items-center justify-center w-full px-12 space-y-4 overflow-y-auto"
-              >
-                {section.content.map((item, idx) => (
-                  <p key={idx} className="text-center max-w-full break-words text-[16px] leading-relaxed text-white/90 px-2 py-1">
-                    {item}
-                  </p>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {!showDetails ? (
+            <h1 className="text-[32px] font-bold tracking-tight text-primary text-center px-4">
+              {section.title}
+            </h1>
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center w-full px-12 space-y-4 overflow-y-auto">
+              {section.content.map((item, idx) => (
+                <p key={idx} className="text-center max-w-full break-words text-[16px] leading-relaxed text-white/90 px-2 py-1">
+                  {item}
+                </p>
+              ))}
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>

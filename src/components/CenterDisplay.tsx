@@ -81,7 +81,7 @@ export const CenterDisplay = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowDetails(true);
-    }, 500);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [currentSection]);

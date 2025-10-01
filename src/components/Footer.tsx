@@ -25,9 +25,9 @@ export const Footer = () => {
           <div className="bg-black/30 backdrop-blur-lg px-6 py-3 rounded-full border border-white/10">
             <div className="flex flex-col items-center gap-1 text-center">
               <p className="text-sm text-white/80">
-                Shoutout to{" "}
+                Original design by{" "}
                 <span className="font-semibold text-primary">Daniela Muntyan</span>
-                {" "}for the original design, and{" "}
+                {" "}· Built with{" "}
                 <span className="font-semibold text-primary">Claude Code</span>
               </p>
               <p className="text-xs text-white/60">

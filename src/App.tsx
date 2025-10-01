@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ShaderCanvas } from "./components/ShaderCanvas";
 import { ShaderSelector } from "./components/ShaderSelector";
 import { CenterDisplay } from "./components/CenterDisplay";
+import { Footer } from "./components/Footer";
 import { motion } from "framer-motion";
 
 export default function App() {
@@ -76,6 +77,9 @@ export default function App() {
           />
         </motion.div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
